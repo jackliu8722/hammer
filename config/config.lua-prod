@@ -1,0 +1,35 @@
+local _C = {}
+
+_C.eos = {
+    httpEndpoint = "http://127.0.0.1:8888/",
+    rpcVersion = "v1/",
+    mockTransactions = ""
+}
+
+_C.redis = {
+    address = "127.0.0.1",
+    password = "",
+    port = "6379",
+    db = "1",
+}
+
+_C.database = {
+    address = "127.0.0.1",
+    port = "3306",
+    dbname = "",
+    username = "",
+    password = "",
+    tablePrefix = "b_"
+}
+
+_C.service = {
+    log = "127.0.0.1:4321",
+}
+
+_C.wechat = {
+    appId = "",
+    appSecret = "",
+    wxUrl = "https://api.weixin.qq.com/sns/jscode2session",
+}
+
+return _C
