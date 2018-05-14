@@ -11,7 +11,7 @@
   branch = "master"
   name = "github.com/eoscanada/eos-go"
   packages = [".","btcsuite/btcd/btcec","btcsuite/btcutil","btcsuite/btcutil/base58","ecc","system","token"]
-  revision = "a20fb9adfa2f4ee011d5380d9e45cd16a63b1dad"
+  revision = "6884b3d8f911343f9274c1ac5b594d17248b40b5"
 
 [[projects]]
   branch = "master"
@@ -34,26 +34,26 @@
 [[projects]]
   name = "github.com/go-xorm/builder"
   packages = ["."]
-  revision = "a9b7ffcca3f0c6445c4e3b1bf72c01578817a6c3"
-  version = "v0.1.0"
+  revision = "bad0a612f0d6277b953910822ab5dfb30dd18237"
+  version = "v0.2.0"
 
 [[projects]]
   name = "github.com/go-xorm/core"
   packages = ["."]
-  revision = "f43c33d9a48db006417a7ac4c16b08897e3e1458"
-  version = "v0.5.8"
+  revision = "c10e21e7e1cec20e09398f2dfae385e58c8df555"
+  version = "v0.6.0"
 
 [[projects]]
   name = "github.com/go-xorm/xorm"
   packages = ["."]
-  revision = "fc1b13e0d8e240788213230aa5747eb557f80f41"
-  version = "v0.6.6"
+  revision = "d85bb4911c725a53b135fc12862748a41b6c07da"
+  version = "v0.7.0"
 
 [[projects]]
   name = "github.com/golang/protobuf"
   packages = ["proto"]
-  revision = "925541529c1fa6821df4e44ce2723319eb2be768"
-  version = "v1.0.0"
+  revision = "b4deda0973fb4c70b50d226b1af49f3da59f5265"
+  version = "v1.1.0"
 
 [[projects]]
   name = "github.com/gomodule/redigo"
@@ -83,13 +83,13 @@
   branch = "master"
   name = "golang.org/x/crypto"
   packages = ["ripemd160"]
-  revision = "2b6c08872f4b66da917bb4ce98df4f0307330f78"
+  revision = "94e3fad7f1b4eed4ec147751ad6b4c4d33f00611"
 
 [[projects]]
   branch = "master"
   name = "golang.org/x/sys"
   packages = ["unix"]
-  revision = "79b0c6888797020a994db17c8510466c72fe75d9"
+  revision = "d0faeb539838e250bd0a9db4182d48d4a1915181"
 
 [[projects]]
   name = "gopkg.in/dgrijalva/jwt-go.v3"

@@ -1,7 +1,6 @@
 package util
 
 import(
-	"net/url"
 	//"bytes"
 	//"io/ioutil"
 	//"encoding/json"
@@ -45,7 +44,7 @@ type NewTask struct {
 
 func GetEos() *EosInstance {
 	if eosInstance.API == nil {
-		url, _ := url.Parse(GetConfig("eos","httpEndpoint"))
+		url := GetConfig("eos","httpEndpoint")
 		chainId := make([]byte, 32)
 		eosInstance = EosInstance{
 			eos.New(url, chainId),
@@ -139,7 +138,7 @@ func (e *EosInstance)CreateTask(owner, approver, contributor, desc string, bount
 		Authorization: []eos.PermissionLevel{
 			{eos.AN(owner), eos.PN("active")},
 		},
-		Data: eos.NewActionData(NewTask{
+		ActionData: eos.NewActionData(NewTask{
 			Owner: eos.AN(owner),
 			Approver: eos.AN(approver),
 			Contributor: eos.AN(contributor),
@@ -169,7 +168,7 @@ func (e *EosInstance)TransferDot(from, to, memo, walletName string, quantity flo
 		Authorization: []eos.PermissionLevel{
 			{Actor: eos.AN(from), Permission: eos.PN("active")},
 		},
-		Data: eos.NewActionData(token.Transfer{
+		ActionData: eos.NewActionData(token.Transfer{
 			From:     eos.AN(from),
 			To:       eos.AN(to),
 			Quantity: asset,
@@ -195,7 +194,7 @@ func (e *EosInstance)IssueDot(to, memo string, quantity float64) (string, error)
 		Authorization: []eos.PermissionLevel{
 			{Actor: eos.AN(CREATOR), Permission: eos.PN("active")},
 		},
-		Data: eos.NewActionData(token.Issue{
+		ActionData: eos.NewActionData(token.Issue{
 			To:       eos.AN(to),
 			Quantity: asset,
 			Memo:     memo,
