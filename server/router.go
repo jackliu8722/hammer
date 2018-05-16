@@ -48,6 +48,9 @@ func (hs *HammerServer)NewRouter() {
 		// 交易
 		oauth.POST("/do_transfer", controller.WxDoTransfer)
 
+		// 任务接口
+		//oauth.POST()
+
 	}
 
 }

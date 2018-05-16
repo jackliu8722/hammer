@@ -18,7 +18,7 @@ const (
 	errWxUserData = iota + 4000
 	userPrefix = "dao"
 )
-
+// 注册送测试dot
 var registerAward = true
 
 type WxUserInfo struct {
@@ -488,17 +488,54 @@ func WxGetUserAccountLog(unionId, page string) gin.H {
 	return gin.H{"success":true, "logs": res}
 }
 
-func WxGetUserTransactionLog(unionId string) gin.H {
+func WxGetUserAccountLogDetail(unionId, tid string) gin.H {
 	account := &model.Account{}
 	_, err := model.GetEngine().Cols("b_account.*").
 		Join("LEFT", "b_user", "b_account.uid=b_user.uid").
 		Where("b_user.union_id=?", unionId).Get(account)
-	if err != nil || account.Id == 0 {
-		return WxError("账户查询失败")
+	if err != nil || account.Id == 0{
+		return WxError("账户不存在")
+	}
+	id, _ := strconv.ParseInt(tid, 10, 64)
+	log := &model.AccountLog{Id: id}
+	_, err = model.GetEngine().Where("from_account=?", account.AccountName).Get(log)
+	if err != nil {
+		return WxError("账户不存在")
 	}
 
-	return gin.H{}
+	res := make(map[string]interface{})
+	// 非链上交易
+	if log.TransactionId == "" {
+		res["transFrom"] = log.FromAccount
+		res["transTo"] = log.ToAccount
+		res["dot"] = log.Amount
+		res["transTime"] = log.CreatedAt
+		res["transId"] = "-非链上交易-"
+		res["contract"] = "-非链上交易-"
+		res["memo"] = log.Memo
+
+		return gin.H{"success": true, "detail": res}
+	}
+
+	txid := log.TransactionId
+	transaction, err := GetEos().GetAccountTransaction(txid)
+	actionData := transaction.Data.(map[string]interface{})
+
+	if err != nil {
+		return WxError("获取记录详细失败")
+	}
+
+	res["transFrom"] = actionData["from"]
+	res["transTo"] = actionData["to"]
+	res["dot"] = actionData["quantity"]
+	res["transTime"] = log.CreatedAt
+	res["transId"] = txid
+	res["contract"] = transaction.Account
+	res["memo"] = actionData["memo"]
+
+	return gin.H{"success": true, "detail": res}
 }
+
 
 func WxCheckHasWallet(unionId string) bool {
 	wallet := &model.Wallet{}
