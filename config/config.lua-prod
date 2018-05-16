@@ -1,8 +1,8 @@
 local _C = {}
 
 _C.eos = {
-    httpEndpoint = "http://127.0.0.1:8888/",
-    rpcVersion = "v1/",
+    httpEndpoint = "http://127.0.0.1:8888",
+    rpcVersion = "v1",
     mockTransactions = ""
 }
 
