@@ -100,7 +100,7 @@ func (wu *WxUserInfo)WxAutoRegister() (error) {
 		err = session.Begin()
 		newWechatUser := model.WechatUser{
 			UnionId: wu.UnionId,
-			NickName: wu.NickName,
+			NickName: FilterEmoji(wu.NickName),
 			City: wu.City,
 			Province: wu.Province,
 			Country: wu.Country,
