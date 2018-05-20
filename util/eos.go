@@ -1,12 +1,11 @@
 package util
 
 import(
-	"net/url"
 	//"bytes"
 	//"io/ioutil"
 	//"encoding/json"
 	//"net/http"
-	//"errors"
+	"errors"
 	"strconv"
 
 	eos "github.com/eoscanada/eos-go"
@@ -45,7 +44,7 @@ type NewTask struct {
 
 func GetEos() *EosInstance {
 	if eosInstance.API == nil {
-		url, _ := url.Parse(GetConfig("eos","httpEndpoint"))
+		url := GetConfig("eos","httpEndpoint")
 		chainId := make([]byte, 32)
 		eosInstance = EosInstance{
 			eos.New(url, chainId),
@@ -82,7 +81,7 @@ func (e *EosInstance)CreateAccount(accountName string) (string, string, error) {
 // 每个用户只能创建一个钱包，钱包名字关联用户表
 // 不存储钱包密钥，创建钱包无法从外部调用
 func (e *EosInstance)CreateWallet(walletName string) (string, error) {
-	res, err := DoPost(e.httpEndPoint + e.rpcVersion + "wallet/create", walletName)
+	res, err := DoPost(fmt.Sprintf("%s/%s/%s", e.httpEndPoint, e.rpcVersion, "wallet/create"), walletName)
 	if err != nil {
 		DoLog(err.Error(), "eos_api")
 		return "", err
@@ -97,7 +96,7 @@ func (e *EosInstance)WalletUnlock(name, secret string) error {
 	data = append(data, name)
 	data = append(data, secret)
 	fmt.Println(data)
-	_, err := DoPost(e.httpEndPoint + e.rpcVersion + "wallet/unlock", data)
+	_, err := DoPost(fmt.Sprintf("%s/%s/%s", e.httpEndPoint, e.rpcVersion, "wallet/unlock"), data)
 	if err != nil {
 		return err
 	}
@@ -106,12 +105,25 @@ func (e *EosInstance)WalletUnlock(name, secret string) error {
 }
 
 func (e *EosInstance)WalletLock(name string) error {
-	_, err := DoPost(e.httpEndPoint + e.rpcVersion + "wallet/lock", name)
+	_, err := DoPost(fmt.Sprintf("%s/%s/%s", e.httpEndPoint, e.rpcVersion, "wallet/lock"), name)
 	if err != nil {
 		return err
 	}
 
 	return nil
+}
+
+func (e *EosInstance)GetAccountTransaction(id string) (eos.Action, error) {
+	res, err := e.API.GetTransaction(id)
+	if err != nil {
+		return eos.Action{}, err
+	}
+
+	if len(res.Transaction.Transaction.Actions) > 0 {
+		return *res.Transaction.Transaction.Actions[0], nil
+	}
+
+	return eos.Action{}, errors.New("No such Transaction")
 }
 
 func (e *EosInstance)GetAccountTransactionsRaw(accountName string, startNum, count int) (interface{},error) {
@@ -120,7 +132,7 @@ func (e *EosInstance)GetAccountTransactionsRaw(accountName string, startNum, cou
 		"skip_seq": startNum,
 		"num_seq": count,
 	}
-	resp, err := DoPost(e.httpEndPoint + e.rpcVersion + "account_history/get_transactions", payload)
+	resp, err := DoPost(fmt.Sprintf("%s/%s/%s", e.httpEndPoint, e.rpcVersion, "account_history/get_transactions"), payload)
 	if err != nil {
 		return "",err
 	}
@@ -139,7 +151,7 @@ func (e *EosInstance)CreateTask(owner, approver, contributor, desc string, bount
 		Authorization: []eos.PermissionLevel{
 			{eos.AN(owner), eos.PN("active")},
 		},
-		Data: eos.NewActionData(NewTask{
+		ActionData: eos.NewActionData(NewTask{
 			Owner: eos.AN(owner),
 			Approver: eos.AN(approver),
 			Contributor: eos.AN(contributor),
@@ -169,7 +181,7 @@ func (e *EosInstance)TransferDot(from, to, memo, walletName string, quantity flo
 		Authorization: []eos.PermissionLevel{
 			{Actor: eos.AN(from), Permission: eos.PN("active")},
 		},
-		Data: eos.NewActionData(token.Transfer{
+		ActionData: eos.NewActionData(token.Transfer{
 			From:     eos.AN(from),
 			To:       eos.AN(to),
 			Quantity: asset,
@@ -195,7 +207,7 @@ func (e *EosInstance)IssueDot(to, memo string, quantity float64) (string, error)
 		Authorization: []eos.PermissionLevel{
 			{Actor: eos.AN(CREATOR), Permission: eos.PN("active")},
 		},
-		Data: eos.NewActionData(token.Issue{
+		ActionData: eos.NewActionData(token.Issue{
 			To:       eos.AN(to),
 			Quantity: asset,
 			Memo:     memo,

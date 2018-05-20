@@ -5,8 +5,8 @@
 1. dep 包管理器
 1. mysql
 1. redis
-1. eos node with wallet plugin
-
+1. [eos-go](https://github.com/cookedsteak/eos-go)
+1. eos节点(开放api插件）
 
 ## 目录结构
 ```console

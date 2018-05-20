@@ -92,7 +92,12 @@ func WxGetDotLog(c *gin.Context) {
 }
 
 func WxGetDotLogDetail(c *gin.Context) {
-
+	unionId, err := c.Get("unionId")
+	tid, err2 := c.GetPostForm("tid")
+	if !err || !err2 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": true})
+	}
+	c.JSON(http.StatusOK, logic.WxGetUserAccountLogDetail(unionId.(string), tid))
 }
 
 func WxUnlockWallet(c *gin.Context) {
