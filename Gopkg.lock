@@ -8,10 +8,18 @@
   version = "v2.3.1"
 
 [[projects]]
-  branch = "master"
   name = "github.com/eoscanada/eos-go"
-  packages = [".","btcsuite/btcd/btcec","btcsuite/btcutil","btcsuite/btcutil/base58","ecc","system","token"]
+  packages = [
+    ".",
+    "btcsuite/btcd/btcec",
+    "btcsuite/btcutil",
+    "btcsuite/btcutil/base58",
+    "ecc",
+    "system",
+    "token"
+  ]
   revision = "6884b3d8f911343f9274c1ac5b594d17248b40b5"
+  version = "v3.0.0"
 
 [[projects]]
   branch = "master"
@@ -21,7 +29,11 @@
 
 [[projects]]
   name = "github.com/gin-gonic/gin"
-  packages = [".","binding","render"]
+  packages = [
+    ".",
+    "binding",
+    "render"
+  ]
   revision = "d459835d2b077e44f7c9b453505ee29881d5d12d"
   version = "v1.2"
 
@@ -29,7 +41,7 @@
   name = "github.com/go-sql-driver/mysql"
   packages = ["."]
   revision = "a0583e0143b1624142adab07e0e97fe106d99561"
-  version = "v1.3"
+  version = "v1.3.0"
 
 [[projects]]
   name = "github.com/go-xorm/builder"
@@ -57,7 +69,10 @@
 
 [[projects]]
   name = "github.com/gomodule/redigo"
-  packages = ["internal","redis"]
+  packages = [
+    "internal",
+    "redis"
+  ]
   revision = "9c11da706d9b7902c6da69c592f75637793fe121"
   version = "v2.0.0"
 
@@ -76,20 +91,25 @@
 [[projects]]
   branch = "master"
   name = "github.com/yuin/gopher-lua"
-  packages = [".","ast","parse","pm"]
+  packages = [
+    ".",
+    "ast",
+    "parse",
+    "pm"
+  ]
   revision = "b0fa786cf4ea360285924c4a7fd42325be57aec8"
 
 [[projects]]
   branch = "master"
   name = "golang.org/x/crypto"
   packages = ["ripemd160"]
-  revision = "94e3fad7f1b4eed4ec147751ad6b4c4d33f00611"
+  revision = "1a580b3eff7814fc9b40602fd35256c63b50f491"
 
 [[projects]]
   branch = "master"
   name = "golang.org/x/sys"
   packages = ["unix"]
-  revision = "d0faeb539838e250bd0a9db4182d48d4a1915181"
+  revision = "88eb85aaee56831ad49eaf7aa80d73de9814cde2"
 
 [[projects]]
   name = "gopkg.in/dgrijalva/jwt-go.v3"
